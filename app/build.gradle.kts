@@ -82,6 +82,7 @@ dependencies {
 
     // coil
     implementation(libs.coil)
+    implementation("io.coil-kt:coil-compose:2.4.0")
 
     // room
     implementation(libs.androidx.room.runtime)
@@ -96,6 +97,8 @@ dependencies {
     // navigation
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+    implementation("androidx.navigation:navigation-compose:2.7.7")
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
     // coroutine
     implementation(libs.kotlinx.coroutines.core)

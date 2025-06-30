@@ -17,6 +17,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -25,12 +26,13 @@ import javax.inject.Singleton
 object AppModule {
     @Provides
     @Singleton
-    fun provideDatabase(context: Context): ConverterDatabase =
+    fun provideDatabase(@ApplicationContext context: Context): ConverterDatabase =
         Room.databaseBuilder(
             context,
             ConverterDatabase::class.java,
             "converter.db"
-        ).createFromAsset("databases/converter.db").build()
+        )
+        .build()
 
     @Provides
     fun provideAccountDao(db: ConverterDatabase): AccountDao = db.accountDao()
@@ -59,4 +61,3 @@ object AppModule {
     fun provideTransactionsRepository(transactionDao: TransactionDao): TransactionsRepository =
         TransactionsRepositoryImpl(transactionDao)
 }
-

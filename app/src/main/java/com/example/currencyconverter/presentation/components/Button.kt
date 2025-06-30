@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.currencyconverter.presentation.theme.CurrencyConverterTheme
 import com.example.currencyconverter.presentation.theme.Typography
 
 @Composable
@@ -41,10 +42,13 @@ fun Button(
 @Preview
 @Composable
 fun ButtonPreview() {
-    Button(
-        onClick = { /* Do something */ },
-        text = "Click Me",
-        topPadding = 16,
-        bottomPadding = 16
-    )
+    CurrencyConverterTheme {
+
+        Button(
+            onClick = { /* Do something */ },
+            text = "Click Me",
+            topPadding = 16,
+            bottomPadding = 16
+        )
+    }
 }
