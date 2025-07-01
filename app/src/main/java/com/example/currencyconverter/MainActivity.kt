@@ -47,6 +47,17 @@ fun AppNavHost() {
             val selectedCurrency by viewModel.selectedCurrency.collectAsState()
             val isInputMode by viewModel.isInputMode.collectAsState()
             val inputValue by viewModel.inputValue.collectAsState()
+            val exchangeViewModel: ExchangeViewModel = hiltViewModel()
+            val isSuccess by exchangeViewModel.isSuccess.collectAsState()
+            LaunchedEffect(isSuccess) {
+                if (isSuccess) {
+                    // После успешной покупки обновить курсы и балансы
+                    selectedCurrency?.let {
+                        viewModel.startRates(it.currency, inputValue.toDoubleOrNull() ?: 1.0)
+                    }
+                    exchangeViewModel.resetSuccess()
+                }
+            }
             CurrencyScreen(
                 currencies = currencies,
                 selectedCurrency = selectedCurrency,

@@ -39,7 +39,14 @@ class CurrencyViewModel @Inject constructor(
         viewModelScope.launch {
             getRatesFlow(base, amount).collectLatest { list ->
                 _currencies.value = list
-                if (_selectedCurrency.value == null) {
+                // Обновляем выбранную валюту, чтобы всегда брать актуальный баланс
+                val selected = _selectedCurrency.value
+                if (selected != null) {
+                    val updated = list.find { it.currency == selected.currency }
+                    if (updated != null) {
+                        _selectedCurrency.value = updated
+                    }
+                } else {
                     _selectedCurrency.value = list.firstOrNull()
                 }
             }
@@ -50,7 +57,8 @@ class CurrencyViewModel @Inject constructor(
         _selectedCurrency.value = currency
         _isInputMode.value = false
         _inputValue.value = "1"
-        startRates(currency.currency, 1.0)
+        // Передаем текущее значение inputValue, чтобы сразу отображалось перемноженное значение
+        startRates(currency.currency, _inputValue.value.toDoubleOrNull() ?: 1.0)
     }
 
     fun enterInputMode() {
@@ -60,6 +68,7 @@ class CurrencyViewModel @Inject constructor(
     fun setInputValue(value: String) {
         _inputValue.value = value
         _selectedCurrency.value?.let {
+            // Передаем новое значение value, чтобы сразу отображалось перемноженное значение
             startRates(it.currency, value.toDoubleOrNull() ?: 1.0)
         }
     }
@@ -72,4 +81,3 @@ class CurrencyViewModel @Inject constructor(
         }
     }
 }
-

@@ -38,5 +38,8 @@ class ExchangeViewModel @Inject constructor(
             }
         }
     }
-}
 
+    fun resetSuccess() {
+        _isSuccess.value = false
+    }
+}
